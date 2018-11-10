@@ -1,5 +1,5 @@
 function love.load(arg)
-  love.math.setRandomSeed(os.time()/os.clock()/os.time()/math.random(10, 10000000))
+  love.math.setRandomSeed(os.time() / os.clock() / os.time() / math.random(10, 10000000))
   print(love.filesystem.getWorkingDirectory( ))
 
   -- global used variables
@@ -33,7 +33,7 @@ function love.load(arg)
   music.files = love.filesystem.getDirectoryItems(music.dir)
   music.tracks = {}
   -- search music folder for audio files
-  for i,file in ipairs(music.files) do
+  for i, file in ipairs(music.files) do
     local fileName = string.gsub(file, ".mp3", "")
     table.insert(music.tracks, {love.audio.newSource("music/"..file, "stream"), fileName})
   end
@@ -41,7 +41,7 @@ function love.load(arg)
   music.current = music.tracks[music.n]
   music.rep = "off"
   -- set the volume for every track to 50%
-  for i,m in ipairs(music.tracks) do
+  for i, m in ipairs(music.tracks) do
     m[1]:setVolume(0.5)
   end
   -- play audio
@@ -55,15 +55,15 @@ function love.load(arg)
   start = {}
   start.startW = 200
   start.startH = 75
-  start.startX = (screen.w/2) - (200/2)
-  start.startY = (screen.h/2) - (75/2)
-  start.startColor = {0/255, 0/255, 0/255}
+  start.startX = (screen.w / 2) - (200 / 2)
+  start.startY = (screen.h / 2) - (75 / 2)
+  start.startColor = {0 / 255, 0 / 255, 0 / 255}
 
   start.controlW = 200
   start.controlH = 75
-  start.controlX = (screen.w/2) - (200/2)
-  start.controlY = (screen.h/2) + (75)
-  start.controlColor = {0/255, 0/255, 0/255}
+  start.controlX = (screen.w / 2) - (200 / 2)
+  start.controlY = (screen.h / 2) + (75)
+  start.controlColor = {0 / 255, 0 / 255, 0 / 255}
   start.controlText =
   "\nPlayer controls"..
   "\nPoint & click   shoot"..
@@ -85,11 +85,11 @@ function love.load(arg)
 
   start.exitW = 200
   start.exitH = 75
-  start.exitX = (screen.w/2) - (200/2)
-  start.exitY = (screen.h/2) + (2*75 + (75/2))
-  start.exitColor = {0/255, 0/255, 0/255}
+  start.exitX = (screen.w / 2) - (200 / 2)
+  start.exitY = (screen.h / 2) + (2 * 75 + (75 / 2))
+  start.exitColor = {0 / 255, 0 / 255, 0 / 255}
 
-  start.backColor = {255/255, 255/255, 255/255, 1}
+  start.backColor = {255 / 255, 255 / 255, 255 / 255, 1}
   start.fade = false
   start.backFade = 2
   start.showControl = false
@@ -101,8 +101,8 @@ function love.load(arg)
 
   player = {}
   player.radius = 20
-  player.x = love.graphics.getWidth()/2
-  player.y = love.graphics.getHeight()/2
+  player.x = love.graphics.getWidth() / 2
+  player.y = love.graphics.getHeight() / 2
   player.speed = 225
   player.angle = 0
   player.LEx = 0
@@ -111,7 +111,7 @@ function love.load(arg)
   player.LSy = 0
   player.LEr = 30
   player.LSr = 10
-  player.color = {255/255, 255/255, 255/255}
+  player.color = {255 / 255, 255 / 255, 255 / 255}
   player.lives = 2
   player.ammo = 30
 
@@ -119,23 +119,23 @@ function love.load(arg)
   enemy.radius = 20
   enemy.speed = 100
   enemy.color = {
-    {51/255, 51/255, 255/255},
-    {51/255, 102/255, 255/255},
-    {51/255, 153/255, 255/255},
-    {51/255, 204/255, 255/255},
-    {51/255, 255/255, 255/255},
-    {51/255, 255/255, 204/255},
-    {51/255, 255/255, 153/255},
-    {51/255, 255/255, 102/255},
-    {51/255, 255/255, 51/255},
-    {102/255, 255/255, 51/255},
-    {153/255, 255/255, 51/255},
-    {204/255, 255/255, 51/255},
-    {255/255, 255/255, 51/255},
-    {255/255, 204/255, 51/255},
-    {255/255, 153/255, 51/255},
-    {255/255, 102/255, 51/255},
-    {255/255, 51/255, 51/255}
+    {51 / 255, 51 / 255, 255 / 255},
+    {51 / 255, 102 / 255, 255 / 255},
+    {51 / 255, 153 / 255, 255 / 255},
+    {51 / 255, 204 / 255, 255 / 255},
+    {51 / 255, 255 / 255, 255 / 255},
+    {51 / 255, 255 / 255, 204 / 255},
+    {51 / 255, 255 / 255, 153 / 255},
+    {51 / 255, 255 / 255, 102 / 255},
+    {51 / 255, 255 / 255, 51 / 255},
+    {102 / 255, 255 / 255, 51 / 255},
+    {153 / 255, 255 / 255, 51 / 255},
+    {204 / 255, 255 / 255, 51 / 255},
+    {255 / 255, 255 / 255, 51 / 255},
+    {255 / 255, 204 / 255, 51 / 255},
+    {255 / 255, 153 / 255, 51 / 255},
+    {255 / 255, 102 / 255, 51 / 255},
+    {255 / 255, 51 / 255, 51 / 255}
   }
   enemy.max = 3
   enemy.maxSegments = 3
@@ -146,7 +146,7 @@ function love.load(arg)
   bullet = {}
   bullet.speed = 600
   bullet.size = 2
-  bullet.color = {255/255, 0, 0}
+  bullet.color = {255 / 255, 0, 0}
   bullets = {}
 
   ammo = {}
@@ -154,7 +154,7 @@ function love.load(arg)
   ammo.minSpeed = 10
   ammo.maxSpeed = 300
   ammo.gFactor = 0.97
-  ammo.color = {232/255, 209/255, 129/255}
+  ammo.color = {232 / 255, 209 / 255, 129 / 255}
   ammos = {}
 
   -- end scene variables
@@ -195,7 +195,7 @@ function love.update(dt)
 
     if (start.fade) then
       if (start.backColor[4] >= 0) then
-        start.backColor[4] = start.backColor[4] - (1/start.backFade*dt)
+        start.backColor[4] = start.backColor[4] - (1 / start.backFade * dt)
       else
         scene.current = "game"
       end
@@ -214,20 +214,20 @@ function love.update(dt)
 
     -- controls handler
     -- right
-    if (love.keyboard.isDown("right") and (player.x < screen.w-(player.radius))) then
-      player.x = player.x + (player.speed*dt)
+    if (love.keyboard.isDown("right") and (player.x < screen.w - (player.radius))) then
+      player.x = player.x + (player.speed * dt)
     end
     -- left
-    if (love.keyboard.isDown("left") and (player.x > 0+(player.radius))) then
-      player.x = player.x - (player.speed*dt)
+    if (love.keyboard.isDown("left") and (player.x > 0 + (player.radius))) then
+      player.x = player.x - (player.speed * dt)
     end
     -- up
-    if (love.keyboard.isDown("up") and (player.y > 0+(player.radius))) then
-      player.y = player.y - (player.speed*dt)
+    if (love.keyboard.isDown("up") and (player.y > 0 + (player.radius))) then
+      player.y = player.y - (player.speed * dt)
     end
     -- down
-    if (love.keyboard.isDown("down") and (player.y < screen.h-(player.radius))) then
-      player.y = player.y + (player.speed*dt)
+    if (love.keyboard.isDown("down") and (player.y < screen.h - (player.radius))) then
+      player.y = player.y + (player.speed * dt)
     end
 
     -- player
@@ -266,7 +266,7 @@ function love.update(dt)
     end
 
     -- when 3 cycles have past..
-    if (enemy.cycle >=3) then
+    if (enemy.cycle >= 3) then
       -- reset amount of cycles
       enemy.cycle = 0
       -- add player level
@@ -286,23 +286,23 @@ function love.update(dt)
     end
 
     -- update for every enemy
-    for i,e in ipairs(enemies) do
+    for i, e in ipairs(enemies) do
       -- variables
       local remove = false
 
       -- calculate new position for enemy
       local angle = math.atan2((player.y - e.y), (player.x - e.x))
-  		local Dx = enemy.speed * math.cos(angle)
-  		local Dy = enemy.speed * math.sin(angle)
+      local Dx = enemy.speed * math.cos(angle)
+      local Dy = enemy.speed * math.sin(angle)
       e.x = e.x + (Dx * dt)
-  		e.y = e.y + (Dy * dt)
+      e.y = e.y + (Dy * dt)
 
       -- check for bullet hit
-      for i,b in ipairs(bullets) do
+      for i, b in ipairs(bullets) do
         -- if bullet is hit
         if (pointInCircle(b.x, b.y, e.x, e.y, enemy.radius)) then
           -- remove segment from enemy
-          e.seg = e.seg-1
+          e.seg = e.seg - 1
           -- remove bullet
           table.remove(bullets, i)
           -- play hit sound
@@ -333,11 +333,11 @@ function love.update(dt)
         -- add enemy destroyed
         enemy.destroyed = enemy.destroyed + 1
         -- add ammo based on the amount of segments
-        for i=1,e.points-1 do
+        for i = 1, e.points - 1 do
           table.insert(ammos, {x = (e.x + love.math.random(1, 50)), y = (e.y + love.math.random(1, 50)), speed = ammo.speed})
         end
         -- log to console
-        print("Log: ".. e.points-1 .." ammo spawned")
+        print("Log: ".. e.points - 1 .." ammo spawned")
         -- set remove to true to remove enemy at the end of the loop
         remove = true
       end
@@ -353,17 +353,17 @@ function love.update(dt)
     -- ammo
 
     -- update for ammo
-    for i,a in ipairs(ammos) do
+    for i, a in ipairs(ammos) do
       -- calculate new speed for ammo
       local x = distance(player.x, player.y, a.x, a.y)
-      a.speed = ammo.maxSpeed*(ammo.gFactor^x)+ammo.minSpeed
+      a.speed = ammo.maxSpeed * (ammo.gFactor^x) + ammo.minSpeed
 
       -- calculate new location for ammo
       local angle = math.atan2((player.y - a.y), (player.x - a.x))
-  		local Dx = a.speed * math.cos(angle)
-  		local Dy = a.speed * math.sin(angle)
+      local Dx = a.speed * math.cos(angle)
+      local Dy = a.speed * math.sin(angle)
       a.x = a.x + (Dx * dt)
-  		a.y = a.y + (Dy * dt)
+      a.y = a.y + (Dy * dt)
 
       -- check for collision with the player
       if (pointInCircle(a.x, a.y, player.x, player.y, player.radius)) then
@@ -381,10 +381,10 @@ function love.update(dt)
 
     -- bullets
     -- update for bullets
-    for i,v in ipairs(bullets) do
+    for i, v in ipairs(bullets) do
       -- calculate new location
-  		v.x = v.x + (v.dx * dt)
-  		v.y = v.y + (v.dy * dt)
+      v.x = v.x + (v.dx * dt)
+      v.y = v.y + (v.dy * dt)
       -- if bullet is out of the render screen
       if ((v.x > screen.w) or (v.y > screen.h) or (v.x < 0) or (v.y < 0)) then
         -- remove bullet from table
@@ -392,7 +392,7 @@ function love.update(dt)
         -- log to console
         print("Log: bullet Removed from screen")
       end
-  	end
+    end
 
     -- players gun
     -- calculate player angle
@@ -405,20 +405,20 @@ function love.update(dt)
   -- end scene
   if (scene.current == "end") then
     -- fade in background
-    if (gameOver.backColor[4] <=1) then
-      gameOver.backColor[4] = gameOver.backColor[4] + (1/gameOver.backFade*dt)
+    if (gameOver.backColor[4] <= 1) then
+      gameOver.backColor[4] = gameOver.backColor[4] + (1 / gameOver.backFade * dt)
     else
       -- fade in text
       if (gameOver.textColor[4] <= 1) then
-        gameOver.textColor[4] = gameOver.textColor[4] + (1/gameOver.textFade*dt)
+        gameOver.textColor[4] = gameOver.textColor[4] + (1 / gameOver.textFade * dt)
       else
         -- fade in second text
         if (gameOver.secondColor[4] <= 1) then
-          gameOver.secondColor[4] = gameOver.secondColor[4] + (1/gameOver.textFade*dt)
+          gameOver.secondColor[4] = gameOver.secondColor[4] + (1 / gameOver.textFade * dt)
         else
-        -- fade in third text while second text is still fading
+          -- fade in third text while second text is still fading
           if (gameOver.thirdColor[4] <= 1) then
-            gameOver.thirdColor[4] = gameOver.thirdColor[4] + (1/gameOver.textFade*dt)
+            gameOver.thirdColor[4] = gameOver.thirdColor[4] + (1 / gameOver.textFade * dt)
           else
             love.timer.sleep(3)
             love.audio.play(music.current[1])
@@ -437,44 +437,57 @@ function love.draw()
     love.graphics.rectangle("fill", 0, 0, screen.w, screen.h)
 
     if start.showControl then
+      -- set font to normal
       love.graphics.setFont(font.normal)
+      -- set color
       love.graphics.setColor(0, 0, 0)
-      love.graphics.printf(start.controlText, 100, 100, screen.w-200, "left")
-      love.graphics.rectangle("fill", screen.w - 300, screen.h-100, 200, 75)
+      -- print control text
+      love.graphics.printf(start.controlText, 100, 100, screen.w - 200, "left")
+
+      -- render back button
+      -- draw rectangle
+      love.graphics.rectangle("fill", screen.w - 300, screen.h - 100, 200, 75)
+      -- set color
       love.graphics.setColor(1, 1, 1)
-      love.graphics.printf("back", screen.w - 300, screen.h-100 + ((75/2) - (font.normal:getHeight()/2)), 200, "center")
+      -- print back button text
+      love.graphics.printf("back", screen.w - 300, screen.h - 100 + ((75 / 2) - (font.normal:getHeight() / 2)), 200, "center")
+
+      -- draw music info
+      -- set color
       love.graphics.setColor(0, 0, 0)
+      -- set font to small
       love.graphics.setFont(font.small)
-      love.graphics.printf("Repeat: "..music.rep, 20, screen.h-(3*font.normal:getHeight())-5, screen.w, "left")
-      love.graphics.printf("Music: "..music.current[2], 20, screen.h-font.normal:getHeight()-5, screen.w, "left")
-      love.graphics.printf("Volume: ".. round(music.current[1]:getVolume()*100) .."%", 20, screen.h-(2*font.normal:getHeight())-5, screen.w, "left")
+      -- print music info text
+      love.graphics.printf("Repeat: "..music.rep, 20, screen.h - (3 * font.normal:getHeight()) - 5, screen.w, "left")
+      love.graphics.printf("Music: "..music.current[2], 20, screen.h - font.normal:getHeight() - 5, screen.w, "left")
+      love.graphics.printf("Volume: ".. round(music.current[1]:getVolume() * 100) .."%", 20, screen.h - (2 * font.normal:getHeight()) - 5, screen.w, "left")
     else
       love.graphics.setFont(font.big)
       love.graphics.setColor(start.startColor)
-      love.graphics.printf("Tshoot", 0, screen.h/4, screen.w, "center")
+      love.graphics.printf("Tshoot", 0, screen.h / 4, screen.w, "center")
 
       -- start button
       love.graphics.setFont(font.normal)
       love.graphics.setColor(start.startColor)
-      love.graphics.rectangle("fill", start.startX, start.startY , start.startW, start.startH)
+      love.graphics.rectangle("fill", start.startX, start.startY, start.startW, start.startH)
       love.graphics.setColor(1, 1, 1)
-      love.graphics.printf("start", start.startX, start.startY + ((start.startH/2) - (font.normal:getHeight()/2)), start.startW, "center")
+      love.graphics.printf("start", start.startX, start.startY + ((start.startH / 2) - (font.normal:getHeight() / 2)), start.startW, "center")
       -- controls button
       love.graphics.setColor(start.controlColor)
-      love.graphics.rectangle("fill", start.controlX, start.controlY , start.controlW, start.controlH)
+      love.graphics.rectangle("fill", start.controlX, start.controlY, start.controlW, start.controlH)
       love.graphics.setColor(1, 1, 1)
-      love.graphics.printf("controls", start.controlX, start.controlY + ((start.controlH/2) - (font.normal:getHeight()/2)), start.controlW, "center")
+      love.graphics.printf("controls", start.controlX, start.controlY + ((start.controlH / 2) - (font.normal:getHeight() / 2)), start.controlW, "center")
       -- exit button
       love.graphics.setColor(start.exitColor)
       love.graphics.rectangle("fill", start.exitX, start.exitY, start.exitW, start.exitH)
       love.graphics.setColor(1, 1, 1)
-      love.graphics.printf("exit", start.exitX, start.exitY + ((start.exitH/2) - (font.normal:getHeight()/2)), start.exitW, "center")
+      love.graphics.printf("exit", start.exitX, start.exitY + ((start.exitH / 2) - (font.normal:getHeight() / 2)), start.exitW, "center")
 
       love.graphics.setColor(0, 0, 0)
       love.graphics.setFont(font.small)
-      love.graphics.printf("Repeat: "..music.rep, 20, screen.h-(3*font.normal:getHeight())-5, screen.w, "left")
-      love.graphics.printf("Music: "..music.current[2], 20, screen.h-font.normal:getHeight()-5, screen.w, "left")
-      love.graphics.printf("Volume: ".. round(music.current[1]:getVolume()*100) .."%", 20, screen.h-(2*font.normal:getHeight())-5, screen.w, "left")
+      love.graphics.printf("Repeat: "..music.rep, 20, screen.h - (3 * font.normal:getHeight()) - 5, screen.w, "left")
+      love.graphics.printf("Music: "..music.current[2], 20, screen.h - font.normal:getHeight() - 5, screen.w, "left")
+      love.graphics.printf("Volume: ".. round(music.current[1]:getVolume() * 100) .."%", 20, screen.h - (2 * font.normal:getHeight()) - 5, screen.w, "left")
     end
   end
 
@@ -487,42 +500,46 @@ function love.draw()
 
     -- draw bullets
     love.graphics.setColor(bullet.color)
-    for i,b in ipairs(bullets) do
+    for i, b in ipairs(bullets) do
       love.graphics.circle("fill", b.x, b.y, bullet.size)
     end
 
     -- draw enemies
     love.graphics.setFont(font.small)
-    for i,e in ipairs(enemies) do
-      love.graphics.setColor(e.seg-3, 255-(e.seg-3), 0)
+    for i, e in ipairs(enemies) do
+      love.graphics.setColor(e.seg - 3, 255 - (e.seg - 3), 0)
       love.graphics.circle("line", e.x, e.y, enemy.radius, e.seg)
-      love.graphics.print(e.seg-2, e.x-(font.small:getWidth(e.seg-2)/2), e.y-(font.small:getHeight()/2))
+      love.graphics.print(e.seg - 2, e.x - (font.small:getWidth(e.seg - 2) / 2), e.y - (font.small:getHeight() / 2))
     end
 
     -- draw ammo
     love.graphics.setColor(ammo.color)
-    for i,a in ipairs(ammos) do
+    for i, a in ipairs(ammos) do
       love.graphics.circle("fill", a.x, a.y, ammo.size)
     end
 
     -- draw score
+    -- set font
     love.graphics.setFont(font.normal)
+    -- set color
     love.graphics.setColor(1, 1, 1)
 
-    love.graphics.printf("score: "..game.score, -20, 20, screen.w, "right")
-    love.graphics.printf("level: "..game.level, 10, 20, 100, "center")
-
-    love.graphics.rectangle("line", 10, font.normal:getHeight()+30, 100, 10)
+    -- print level and score
+    love.graphics.printf("score: "..game.score, - 20, 20, screen.w, "right")
+    love.graphics.printf("level: "..game.level, 20, 20, 200, "left")
+    -- print level progression bar
+    love.graphics.rectangle("line", 20, font.normal:getHeight() + 30, 100, 10)
     love.graphics.setLineWidth(10)
-    love.graphics.line(10, font.normal:getHeight()+35, 10+((enemy.destroyed/enemy.max)*100), font.normal:getHeight()+35)
-
-    love.graphics.printf("lives: "..player.lives, 0, screen.h-(2*font.normal:getHeight())-20, screen.w-20, "right")
-    love.graphics.printf("ammo: "..player.ammo, 0, screen.h-font.normal:getHeight()-20, screen.w-20, "right")
-
+    love.graphics.line(20, font.normal:getHeight() + 35, 20 + ((enemy.destroyed / enemy.max) * 100), font.normal:getHeight() + 35)
+    -- print amount of lives and ammo
+    love.graphics.printf("lives: "..player.lives, 0, screen.h - (2 * font.normal:getHeight()) - 20, screen.w - 20, "right")
+    love.graphics.printf("ammo: "..player.ammo, 0, screen.h - font.normal:getHeight() - 20, screen.w - 20, "right")
+    -- sent font to small
     love.graphics.setFont(font.small)
-    love.graphics.printf("Repeat: "..music.rep, 20, screen.h-(3*font.normal:getHeight())-5, screen.w, "left")
-    love.graphics.printf("Music: "..music.current[2], 20, screen.h-font.normal:getHeight()-5, screen.w, "left")
-    love.graphics.printf("Volume: ".. round(music.current[1]:getVolume()*100) .."%", 20, screen.h-(2*font.normal:getHeight())-5, screen.w, "left")
+    -- draw music info
+    love.graphics.printf("Repeat: "..music.rep, 20, screen.h - (3 * font.normal:getHeight()) - 5, screen.w, "left")
+    love.graphics.printf("Music: "..music.current[2], 20, screen.h - font.normal:getHeight() - 5, screen.w, "left")
+    love.graphics.printf("Volume: ".. round(music.current[1]:getVolume() * 100) .."%", 20, screen.h - (2 * font.normal:getHeight()) - 5, screen.w, "left")
   end
 
   if (scene.current == "end") then
@@ -531,13 +548,13 @@ function love.draw()
 
     love.graphics.setFont(font.big)
     love.graphics.setColor(gameOver.textColor)
-    love.graphics.printf(gameOver.text, (screen.w/2)-300, (screen.h/2)-font.big:getHeight(), 600, "center")
+    love.graphics.printf(gameOver.text, (screen.w / 2) - 300, (screen.h / 2) - font.big:getHeight(), 600, "center")
 
     love.graphics.setFont(font.small)
     love.graphics.setColor(gameOver.secondColor)
-    love.graphics.printf("You reached level "..game.level, (screen.w/2)-300, (screen.h/2) - (1.4*font.big:getHeight()), 600, "center")
+    love.graphics.printf("You reached level "..game.level, (screen.w / 2) - 300, (screen.h / 2) - (1.4 * font.big:getHeight()), 600, "center")
     love.graphics.setColor(gameOver.thirdColor)
-    love.graphics.printf("Your score: "..game.score, (screen.w/2)-300, (screen.h/2)+10, 600, "center")
+    love.graphics.printf("Your score: "..game.score, (screen.w / 2) - 300, (screen.h / 2) + 10, 600, "center")
   end
 end
 
@@ -575,11 +592,11 @@ function love.keypressed(key)
   end
 
   if (key == "=") and (music.current[1]:getVolume()) <= 1.4 then
-    music.current[1]:setVolume(music.current[1]:getVolume()+0.05)
+    music.current[1]:setVolume(music.current[1]:getVolume() + 0.05)
   end
 
   if (key == "-") and (music.current[1]:getVolume() >= -1) then
-    music.current[1]:setVolume(music.current[1]:getVolume()-0.05)
+    music.current[1]:setVolume(music.current[1]:getVolume() - 0.05)
   end
 
   if (key == "0") and music.rep == "on" then
@@ -602,21 +619,21 @@ end
 
 -- mouse events
 function love.mousepressed(x, y, button)
-	if ((button == 1) and (scene.current == "game")) then
+  if ((button == 1) and (scene.current == "game")) then
     player.ammo = player.ammo - 1
-		local startX = player.LSx
-		local startY = player.LSy
-		local mouseX = x
-		local mouseY = y
+    local startX = player.LSx
+    local startY = player.LSy
+    local mouseX = x
+    local mouseY = y
 
-		local angle = math.atan2((mouseY - startY), (mouseX - startX))
+    local angle = math.atan2((mouseY - startY), (mouseX - startX))
 
-		local bulletDx = bullet.speed * math.cos(angle)
-		local bulletDy = bullet.speed * math.sin(angle)
+    local bulletDx = bullet.speed * math.cos(angle)
+    local bulletDy = bullet.speed * math.sin(angle)
 
-		table.insert(bullets, {x = startX, y = startY, dx = bulletDx, dy = bulletDy})
+    table.insert(bullets, {x = startX, y = startY, dx = bulletDx, dy = bulletDy})
     love.audio.play(sound.shoot)
-	end
+  end
 
   if ((button == 1) and (scene.current == "start")) then
     if CheckCollision(start.startX, start.startY, start.startW, start.startH, x, y, 1, 1) then
@@ -632,7 +649,7 @@ function love.mousepressed(x, y, button)
       start.showControl = true
     end
     if start.showControl then
-      if CheckCollision(screen.w - 300, screen.h-100, 200, 75, x, y, 1, 1) then
+      if CheckCollision(screen.w - 300, screen.h - 100, 200, 75, x, y, 1, 1) then
         love.audio.play(sound.click)
         start.showControl = false
       end
@@ -676,9 +693,9 @@ end
 
 -- Functions
 function lineEndPoint (x, y, a, r)
-  xn = math.cos(a)*r
-  yn = math.sin(a)*r
-  return x+xn,y+yn
+  xn = math.cos(a) * r
+  yn = math.sin(a) * r
+  return x + xn, y + yn
 end
 
 function pointInCircle(x, y, xCenter, yCenter, r)
@@ -686,20 +703,20 @@ function pointInCircle(x, y, xCenter, yCenter, r)
 end
 
 function checkCircularCollision(ax, ay, bx, by, ar, br)
-	local dx = bx - ax
-	local dy = by - ay
-	return dx^2 + dy^2 < (ar + br)^2
+  local dx = bx - ax
+  local dy = by - ay
+  return dx^2 + dy^2 < (ar + br)^2
 end
 
 function round(x)
   return x + 0.5 - (x + 0.5) % 1
 end
 
-function CheckCollision(x1,y1,w1,h1, x2,y2,w2,h2)
-  return x1 < x2+w2 and
-         x2 < x1+w1 and
-         y1 < y2+h2 and
-         y2 < y1+h1
+function CheckCollision(x1, y1, w1, h1, x2, y2, w2, h2)
+  return x1 < x2 + w2 and
+  x2 < x1 + w1 and
+  y1 < y2 + h2 and
+  y2 < y1 + h1
 end
 
 function distance ( x1, y1, x2, y2 )
@@ -710,15 +727,15 @@ end
 
 function restart()
   -- start scene variables
-  start.backColor = {255/255, 255/255, 255/255, 1}
+  start.backColor = {255 / 255, 255 / 255, 255 / 255, 1}
   start.fade = false
 
   -- game scene variables
   game.level = 0
   game.score = 0
 
-  player.x = love.graphics.getWidth()/2
-  player.y = love.graphics.getHeight()/2
+  player.x = love.graphics.getWidth() / 2
+  player.y = love.graphics.getHeight() / 2
   player.angle = 0
   player.LEx = 0
   player.LEy = 0
