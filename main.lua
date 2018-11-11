@@ -154,7 +154,8 @@ function love.load(arg)
   ammo.minSpeed = 10
   ammo.maxSpeed = 300
   ammo.gFactor = 0.97
-  ammo.color = {232 / 255, 209 / 255, 129 / 255}
+  ammo.color = {232 / 255, 209 / 255, 129 / 255, 1}
+  ammo.fade = 4
   ammos = {}
 
   -- end scene variables
@@ -333,11 +334,11 @@ function love.update(dt)
         -- add enemy destroyed
         enemy.destroyed = enemy.destroyed + 1
         -- add ammo based on the amount of segments
-        for i = 1, e.points - 1 do
-          table.insert(ammos, {x = (e.x + love.math.random(1, 50)), y = (e.y + love.math.random(1, 50)), speed = ammo.speed})
+        for i = 1, e.points - round(love.math.random(-1, 1)) do
+          table.insert(ammos, {x = (e.x + love.math.random(1, 50)), y = (e.y + love.math.random(1, 50)), speed = ammo.speed, color = {232 / 255, 209 / 255, 129 / 255, 1}})
         end
         -- log to console
-        print("Log: ".. e.points - 1 .." ammo spawned")
+        print("Log: ammo spawned")
         -- set remove to true to remove enemy at the end of the loop
         remove = true
       end
@@ -372,6 +373,16 @@ function love.update(dt)
         -- play ammo sound
         love.audio.stop(sound.ammo)
         love.audio.play(sound.ammo)
+        -- remove ammo from table
+        table.remove(ammos, i)
+        -- log to console
+        print("Log: ammo Removed from screen")
+      end
+
+      -- calculate new color
+      if (a.color[4] <= 1) then
+        a.color[4] = a.color[4] - (1 / ammo.fade * dt)
+      else
         -- remove ammo from table
         table.remove(ammos, i)
         -- log to console
@@ -513,8 +524,8 @@ function love.draw()
     end
 
     -- draw ammo
-    love.graphics.setColor(ammo.color)
     for i, a in ipairs(ammos) do
+      love.graphics.setColor(a.color)
       love.graphics.circle("fill", a.x, a.y, ammo.size)
     end
 
@@ -614,6 +625,8 @@ function love.keypressed(key)
   if key == "r" then
     gameOver.text = "You gave up!?"
     scene.current = "end"
+    love.audio.pause(music.current[1])
+    love.audio.play(sound.gameOver)
   end
 end
 
