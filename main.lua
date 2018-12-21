@@ -56,43 +56,91 @@ function love.load(arg)
   start.startW = 200
   start.startH = 75
   start.startX = (screen.w / 2) - (200 / 2)
-  start.startY = (screen.h / 2) - (75 / 2)
+  start.startY = (screen.h / 2) - (0.5 * 75)
   start.startColor = {0 / 255, 0 / 255, 0 / 255}
+
+  start.multiW = 200
+  start.multiH = 75
+  start.multiX = (screen.w / 2) - (200 / 2)
+  start.multiY = (screen.h / 2) + (75)
+  start.multiColor = {0 / 255, 0 / 255, 0 / 255}
 
   start.controlW = 200
   start.controlH = 75
   start.controlX = (screen.w / 2) - (200 / 2)
-  start.controlY = (screen.h / 2) + (75)
+  start.controlY = (screen.h / 2) + (2.5 * 75)
   start.controlColor = {0 / 255, 0 / 255, 0 / 255}
-  start.controlText =
-  "\nPlayer controls"..
-  "\nPoint & click   shoot"..
-  "\nArrow up        move up"..
-  "\nArrow down      move down"..
-  "\nArrow right     move right"..
-  "\nArrow left      move left"..
+  start.controlText1 =
+  "\n-Player controls-"..
+  "\nshoot"..
+  "\nmove up"..
+  "\nmove down"..
+  "\nmove right"..
+  "\nmove left"..
   "\n"..
-  "\nGame controls"..
-  "\nr               back to menu"..
-  "\nEsc             exit game"..
+  "\n-Game controls-"..
+  "\nback to menu"..
+  "\nexit game"..
   "\n"..
-  "\nMusic controls"..
-  "\n]               next song"..
-  "\n[               previous song"..
-  "\n+               volume up"..
-  "\n-               volume down"..
-  "\n0               toggle repeat"
+  "\n-Music controls-"..
+  "\nnext song"..
+  "\nprevious song"..
+  "\nvolume up"..
+  "\nvolume down"..
+  "\ntoggle repeat"
+  start.controlText2 =
+  "\n"..
+  "\nPoint & click"..
+  "\nArrow up"..
+  "\nArrow down"..
+  "\nArrow right"..
+  "\nArrow left"..
+  "\n"..
+  "\n"..
+  "\nr"..
+  "\nEsc"..
+  "\n"..
+  "\n"..
+  "\n]"..
+  "\n["..
+  "\n+"..
+  "\n-"..
+  "\n0"
 
   start.exitW = 200
   start.exitH = 75
   start.exitX = (screen.w / 2) - (200 / 2)
-  start.exitY = (screen.h / 2) + (2 * 75 + (75 / 2))
+  start.exitY = (screen.h / 2) + (4 * 75)
   start.exitColor = {0 / 255, 0 / 255, 0 / 255}
 
   start.backColor = {255 / 255, 255 / 255, 255 / 255, 1}
   start.fade = false
   start.backFade = 2
   start.showControl = false
+
+  -- multiplayer scene variables
+  multiplayer = {}
+
+  multiplayer.client = {}
+  multiplayer.client.w = 200
+  multiplayer.client.h = 75
+  multiplayer.client.x = (screen.w / 2) - (200 / 2)
+  multiplayer.client.y = (screen.h / 2) - (0.5 * 75)
+  multiplayer.client.color = {0 / 255, 0 / 255, 0 / 255}
+
+  multiplayer.server = {}
+  multiplayer.server.w = 200
+  multiplayer.server.h = 75
+  multiplayer.server.x = (screen.w / 2) - (200 / 2)
+  multiplayer.server.y = (screen.h / 2) + (75)
+  multiplayer.server.color = {0 / 255, 0 / 255, 0 / 255}
+
+  multiplayer.back = {}
+  multiplayer.back.w = 200
+  multiplayer.back.h = 75
+  multiplayer.back.x = (screen.w / 2) - (200 / 2)
+  multiplayer.back.y = (screen.h / 2) + (2.5 * 75)
+  multiplayer.back.color = {0 / 255, 0 / 255, 0 / 255}
 
   -- game scene variables
   game = {}
@@ -380,9 +428,10 @@ function love.update(dt)
       end
 
       -- calculate new color
-      if (a.color[4] <= 1) then
+      if (a.color[4] >= 0) then
         a.color[4] = a.color[4] - (1 / ammo.fade * dt)
-      else
+      end
+      if (a.color[4] <= 0) then
         -- remove ammo from table
         table.remove(ammos, i)
         -- log to console
@@ -453,7 +502,8 @@ function love.draw()
       -- set color
       love.graphics.setColor(0, 0, 0)
       -- print control text
-      love.graphics.printf(start.controlText, 100, 100, screen.w - 200, "left")
+      love.graphics.printf(start.controlText1, 100, 100, screen.w - 200, "left")
+      love.graphics.printf(start.controlText2, 500, 100, screen.w - 200, "left")
 
       -- render back button
       -- draw rectangle
@@ -479,10 +529,14 @@ function love.draw()
 
       -- start button
       love.graphics.setFont(font.normal)
-      love.graphics.setColor(start.startColor)
       love.graphics.rectangle("fill", start.startX, start.startY, start.startW, start.startH)
       love.graphics.setColor(1, 1, 1)
       love.graphics.printf("start", start.startX, start.startY + ((start.startH / 2) - (font.normal:getHeight() / 2)), start.startW, "center")
+      -- multiplayer button
+      love.graphics.setColor(start.multiColor)
+      love.graphics.rectangle("fill", start.multiX, start.multiY, start.multiW, start.multiH)
+      love.graphics.setColor(1, 1, 1)
+      love.graphics.printf("multiplayer", start.multiX, start.multiY + ((start.multiH / 2) - (font.normal:getHeight() / 2)), start.multiW, "center")
       -- controls button
       love.graphics.setColor(start.controlColor)
       love.graphics.rectangle("fill", start.controlX, start.controlY, start.controlW, start.controlH)
@@ -500,6 +554,33 @@ function love.draw()
       love.graphics.printf("Music: "..music.current[2], 20, screen.h - font.normal:getHeight() - 5, screen.w, "left")
       love.graphics.printf("Volume: ".. round(music.current[1]:getVolume() * 100) .."%", 20, screen.h - (2 * font.normal:getHeight()) - 5, screen.w, "left")
     end
+  end
+
+  if (scene.current == "multiplayer") then
+    love.graphics.setColor(start.backColor)
+    love.graphics.rectangle("fill", 0, 0, screen.w, screen.h)
+
+    love.graphics.setFont(font.big)
+    love.graphics.setColor(start.startColor)
+    love.graphics.printf("Multiplayer", 0, screen.h / 4, screen.w, "center")
+
+    love.graphics.setFont(font.normal)
+
+    -- join button
+    love.graphics.setColor(multiplayer.client.color)
+    love.graphics.rectangle("fill", multiplayer.client.x, multiplayer.client.y, multiplayer.client.w, multiplayer.client.h)
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf("join", multiplayer.client.x, multiplayer.client.y + ((multiplayer.client.h / 2) - (font.normal:getHeight() / 2)), multiplayer.client.w, "center")
+    -- server button
+    love.graphics.setColor(multiplayer.server.color)
+    love.graphics.rectangle("fill", multiplayer.server.x, multiplayer.server.y, multiplayer.server.w, multiplayer.server.h)
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf("create server", multiplayer.server.x, multiplayer.server.y + ((multiplayer.server.h / 2) - (font.normal:getHeight() / 2)), multiplayer.server.w, "center")
+    -- back to menu button
+    love.graphics.setColor(multiplayer.back.color)
+    love.graphics.rectangle("fill", multiplayer.back.x, multiplayer.back.y, multiplayer.back.w, multiplayer.back.h)
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf("back", multiplayer.back.x, multiplayer.back.y + ((multiplayer.back.h / 2) - (font.normal:getHeight() / 2)), multiplayer.back.w, "center")
   end
 
   if (scene.current == "game") then
@@ -666,6 +747,22 @@ function love.mousepressed(x, y, button)
         love.audio.play(sound.click)
         start.showControl = false
       end
+    end
+    if CheckCollision(start.multiX, start.multiY, start.multiW, start.multiH, x, y, 1, 1) then
+      love.audio.play(sound.click)
+      scene.current = "multiplayer"
+    end
+  end
+  if ((button == 1) and (scene.current == "multiplayer")) then
+    if CheckCollision(multiplayer.client.x, multiplayer.client.y, multiplayer.client.w, multiplayer.client.h, x, y, 1, 1) then
+      love.audio.play(sound.click)
+    end
+    if CheckCollision(multiplayer.server.x, multiplayer.server.y, multiplayer.server.w, multiplayer.server.h, x, y, 1, 1) then
+      love.audio.play(sound.click)
+    end
+    if CheckCollision(multiplayer.back.x, multiplayer.back.y, multiplayer.back.w, multiplayer.back.h, x, y, 1, 1) then
+      love.audio.play(sound.click)
+      scene.current = "start"
     end
   end
 end

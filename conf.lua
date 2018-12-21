@@ -1,5 +1,5 @@
 function love.conf(t)
-  t.version = "11.0"
+  t.version = "11.2"
   t.console = true
 
   t.releases = {
