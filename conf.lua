@@ -17,7 +17,7 @@ function love.conf(t)
 
   t.window.title = "Tshoot"
   t.window.icon = "icon.png"
-  t.window.fullscreen = true
+  t.window.fullscreen = false
   t.window.msaa = 4
   t.window.vsync = 0
 end
