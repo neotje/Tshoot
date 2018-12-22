@@ -1,4 +1,3 @@
-noobhub = require "noobhub"
 tserial = require "tserial"
 
 function love.load(arg)
