@@ -1,3 +1,6 @@
+noobhub = require "noobhub"
+tserial = require "tserial"
+
 function love.load(arg)
   love.math.setRandomSeed(os.time() / os.clock() / os.time() / math.random(10, 10000000))
   print(love.filesystem.getWorkingDirectory( ))
@@ -120,6 +123,11 @@ function love.load(arg)
 
   -- multiplayer scene variables
   multiplayer = {}
+
+  multiplayer.id = nil
+  multiplayer.name = "player"
+  multiplayer.running = false
+  multiplayer.updaterate = 0.1
 
   multiplayer.client = {}
   multiplayer.client.w = 200
@@ -462,6 +470,11 @@ function love.update(dt)
     player.LSx, player.LSy = lineEndPoint(player.x, player.y, player.angle, player.LSr)
   end
 
+  -- multiplayer game
+  if (scene.current == "multiplayer" and multiplayer.running) then
+
+  end
+
   -- end scene
   if (scene.current == "end") then
     -- fade in background
@@ -746,6 +759,7 @@ function love.mousepressed(x, y, button)
       if CheckCollision(screen.w - 300, screen.h - 100, 200, 75, x, y, 1, 1) then
         love.audio.play(sound.click)
         start.showControl = false
+        connect("localhost", 1337)
       end
     end
     if CheckCollision(start.multiX, start.multiY, start.multiW, start.multiH, x, y, 1, 1) then
@@ -759,6 +773,7 @@ function love.mousepressed(x, y, button)
     end
     if CheckCollision(multiplayer.server.x, multiplayer.server.y, multiplayer.server.w, multiplayer.server.h, x, y, 1, 1) then
       love.audio.play(sound.click)
+      io.popen(".\\server\\nodejs\\node.exe .\\server\\node.js")
     end
     if CheckCollision(multiplayer.back.x, multiplayer.back.y, multiplayer.back.w, multiplayer.back.h, x, y, 1, 1) then
       love.audio.play(sound.click)
